@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chess Coach Options</title>
+    <link rel="stylesheet" href="ui.css" />
+    <style>
+      main { max-width: 720px; margin: 28px auto; padding: 0 16px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Chess Coach: Options</h1>
+      <p class="muted">Hover explanations for chess.com analysis boards.</p>
+
+      <section class="disclaimer">
+        <strong>Educational use only.</strong>
+        <p>
+          This extension is for educational analysis only. Using it in rated games violates chess.com's Terms of
+          Service. It never plays moves for you, and it only activates on the analysis board (and, if you opt in
+          below, on finished games). It stays off on play, puzzle and tournament pages, and whenever a game clock
+          is running.
+        </p>
+        <label class="check">
+          <input type="checkbox" id="acknowledged" />
+          <span>I understand and will only use this extension for study and analysis, never during games.</span>
+        </label>
+      </section>
+
+      <section class="card">
+        <h2>General</h2>
+        <label class="check"><input type="checkbox" id="enabled" /> <span>Extension enabled</span></label>
+        <label class="check"><input type="checkbox" id="hoverExplanations" /> <span>Show hover explanations</span></label>
+        <label class="check"><input type="checkbox" id="showDestinations" /> <span>Highlight legal destination squares when hovering a piece</span></label>
+        <label class="check">
+          <input type="checkbox" id="allowFinishedGames" />
+          <span>Also allow on finished-game pages (<code>/game/…</code>) once a game-over screen is shown</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="debug" />
+          <span>Debug logging (open DevTools on the chess.com tab and filter the console by <code>Chess Coach</code>)</span>
+        </label>
+        <div class="row">
+          <label for="hoverDelayMs">Hover delay (ms)</label>
+          <input type="number" id="hoverDelayMs" min="0" max="2000" step="50" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Engine (Stockfish 19 lite, runs locally)</h2>
+        <div class="row">
+          <label for="depth">Search depth: <span id="depthValue"></span></label>
+          <input type="range" id="depth" min="6" max="24" step="1" />
+        </div>
+        <div class="row">
+          <label for="moveTimeMs">Max time per search (ms)</label>
+          <input type="number" id="moveTimeMs" min="100" max="30000" step="100" />
+        </div>
+        <p class="muted">Each hover runs up to two searches (the position, then your candidate move). The search stops at whichever limit it reaches first. Results are cached.</p>
+      </section>
+
+      <section class="card">
+        <h2>AI coach (optional)</h2>
+        <div class="row">
+          <label for="llmProvider">Provider</label>
+          <select id="llmProvider"></select>
+        </div>
+        <div class="row" id="apiKeyRow">
+          <label for="apiKey">API key</label>
+          <input type="password" id="apiKey" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="row" id="modelRow">
+          <label for="model">Model</label>
+          <input type="text" id="model" spellcheck="false" />
+        </div>
+        <div class="row" id="endpointRow">
+          <label for="endpoint">Endpoint</label>
+          <input type="url" id="endpoint" spellcheck="false" />
+        </div>
+        <p class="muted" id="providerHint"></p>
+        <div class="actions">
+          <button id="test" type="button">Test connection</button>
+          <span id="testStatus" class="status"></span>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button id="save" class="primary" type="button">Save settings</button>
+        <span id="saveStatus" class="status"></span>
+      </div>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

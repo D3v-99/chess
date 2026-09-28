@@ -1,0 +1,132 @@
+/* Shared styles for options.html and popup.html */
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --fg: #1d2026;
+  --muted: #5f6672;
+  --line: #dde1e7;
+  --accent: #2f6fdb;
+  --warn-bg: #fff4e0;
+  --warn-line: #f0b44c;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17181c;
+    --card: #1f2126;
+    --fg: #eceef2;
+    --muted: #9aa0ab;
+    --line: #34373e;
+    --accent: #6c9cff;
+    --warn-bg: #3a2f1b;
+    --warn-line: #b0822f;
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 14px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+h1 { font-size: 20px; margin: 0 0 4px; }
+h2 { font-size: 15px; margin: 0 0 12px; }
+p { margin: 0 0 8px; }
+.muted { color: var(--muted); font-size: 12.5px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.disclaimer {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.row:last-child { margin-bottom: 0; }
+
+label.check {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+label.check input { margin-top: 3px; }
+
+input[type='text'],
+input[type='password'],
+input[type='number'],
+input[type='url'],
+select {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+}
+
+input[type='range'] { width: 100%; }
+
+button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+button:disabled { opacity: 0.55; cursor: default; }
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status { font-size: 13px; color: var(--muted); }
+.status.ok { color: #2e9e4f; }
+.status.err { color: #d64545; }
+
+code, .mono {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+@media (max-width: 560px) {
+  .row { grid-template-columns: 1fr; gap: 4px; }
+}

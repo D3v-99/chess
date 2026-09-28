@@ -1,0 +1,17 @@
+{
+  "name": "chess-coach-hover",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Educational hover explanations for chess.com analysis boards (Chrome MV3 extension).",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "fetch-stockfish": "bash scripts/fetch-stockfish.sh",
+    "test:engine": "node test/e2e/engine.e2e.mjs",
+    "test:e2e": "node test/e2e/extension.e2e.mjs"
+  },
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}

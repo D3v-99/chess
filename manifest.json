@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Chess Coach Hover (Educational)",
+  "short_name": "Chess Coach",
+  "version": "1.0.0",
+  "description": "Hover a move on a chess.com analysis board to see why it is good or bad. For educational analysis only. Not for rated games.",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Chess Coach (educational)",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["storage", "activeTab", "scripting", "offscreen"],
+  "host_permissions": [
+    "https://www.chess.com/*",
+    "https://api.openai.com/*",
+    "https://api.deepseek.com/*",
+    "http://localhost:11434/*",
+    "http://127.0.0.1:11434/*"
+  ],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.chess.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["styles.css", "lib/chess.js"],
+      "matches": ["https://www.chess.com/*"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  }
+}
