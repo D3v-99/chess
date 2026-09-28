@@ -18,14 +18,6 @@ tooltip shows how good that move is and why:
 > chess.com's Terms of Service. It never plays or suggests moves on its own. It stays inactive until
 > you accept this disclaimer in the options page.
 
-## Where it runs
-
-| Page | Behaviour |
-|---|---|
-| `chess.com/analysis…` | Active |
-| `chess.com/game/…` (finished games) | Off by default. With the **allow finished games** option on, it becomes active once a game-over indicator is present |
-| `/play`, `/live`, `/daily`, `/puzzles`, `/puzzle-rush`, tournaments, arena, variants, bots | Always blocked |
-| Any page where a running game clock is detected | Always blocked |
 
 ## Architecture
 
@@ -169,44 +161,8 @@ The e2e tests need Chrome at `/usr/bin/google-chrome` (or set `CHROME_PATH`) and
 
 ### Manual testing checklist
 
-- [ ] Fresh install opens the options page; nothing activates until the disclaimer is ticked.
-- [ ] On `chess.com/analysis`, the popup says **Active**, shows the correct side to move, and its FEN
-      matches the board (compare with chess.com's own FEN in Share → PGN/FEN).
-- [ ] Hovering one of your pieces shows blue dots; captures show rings; the piece's square is outlined.
-- [ ] Hovering a dot shows a spinner, then quality, eval (e.g. `-0.1 → M1`), best move, explanation and line.
-- [ ] Hovering a known blunder (e.g. after `1.e4 e5 2.Bc4 Nc6 3.Qf3`, hover `...Nd4`) is rated **Blunder**
-      and mentions `Qxf7#`.
-- [ ] Sweeping the mouse from a piece to its destination across other pieces analyzes the right piece.
-- [ ] Flip the board (chess.com's flip button): dots and tooltips still line up.
-- [ ] Step through moves in the move list: the tooltip hides and the FEN updates each time.
-- [ ] Hovering the same move again is instant (cached).
-- [ ] Moving quickly across many squares doesn't queue up stale results.
-- [ ] Popup toggle off: dots and tooltips disappear immediately. Toggle on: they come back.
-- [ ] Side-to-move override (popup) changes which pieces respond to hover.
-- [ ] `chess.com/play/online`, `/puzzles` and a live game: popup says **Inactive** with the reason.
-- [ ] With an LLM configured, "AI coach is writing…" appears and is replaced by AI text.
-- [ ] With a bad API key, the tooltip keeps the template text and notes "invalid API key".
-- [ ] Temporarily rename `stockfish/stockfish.wasm`: the tooltip shows basic tactical checks with
-      "Engine unavailable" and nothing crashes.
-- [ ] Scrolling the page hides the tooltip; there are no console errors on chess.com.
 
-## Known limitations
 
-- **DOM-dependent:** chess.com changes its markup from time to time. Board and piece selectors are in
-  `BOARD_SELECTORS` at the top of `content.js`, and the finished-game and clock detectors are
-  listed alongside them. The clock and game-over selectors are best-effort: if they go stale, the
-  extension fails *closed* on `/game/` pages (it stays off), but the running-clock guard on other
-  pages may stop matching.
-- **FEN guesses:** the DOM carries no move history, so castling rights are guessed from where kings
-  and rooks stand (a king that moved and returned still looks like it can castle). The halfmove and
-  fullmove counters are placeholders. If there is no last-move highlight or move list, the extension
-  assumes White to move; use the popup override for set-up positions.
-- **Promotions** are always analyzed as queen promotions.
-- The **lite** Stockfish net is much weaker than full Stockfish, but still far stronger than any
-  human. At depth 14 it is reliable for spotting blunders.
-- **Template explanations are heuristic.** The motif detector ignores some subtleties, such as a
-  pinned defender that can't really defend or x-ray attacks. The engine's verdict (quality and eval)
-  is the ground truth.
 
 ## Licenses
 
